@@ -1,0 +1,24 @@
+{
+  "name": "cabo-backend-api",
+  "version": "1.0.0",
+  "description": "Backend API for a Solar Carbon Credit Marketplace using Node.js, Express.js and MongoDB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharmaparth2502/cabo-backend-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sharmaparth2502/cabo-backend-api/issues"
+  },
+  "homepage": "https://github.com/sharmaparth2502/cabo-backend-api#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
