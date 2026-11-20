@@ -11,6 +11,8 @@ This repository contains the backend development of CABO, a platform designed to
 - Node.js
 - Express.js
 - MongoDB (planned integration)
+- CORS
+- dotenv
 
 ## Project Structure
 
@@ -18,11 +20,14 @@ This repository contains the backend development of CABO, a platform designed to
 cabo-backend-api/
 ├── src/
 │   ├── controllers/
-│   │   └── health.controller.js
+│   │   ├── health.controller.js
+│   │   └── info.controller.js
 │   ├── middleware/
-│   │   └── notFound.js
+│   │   ├── notFound.js
+│   │   └── errorHandler.js
 │   └── routes/
-│       └── health.routes.js
+│       ├── health.routes.js
+│       └── info.routes.js
 ├── index.js
 ├── package.json
 ├── package-lock.json
@@ -52,23 +57,35 @@ npm install
 ### 4. Start the server
 
 ```bash
-node index.js
+npm start
+```
+
+For development mode with automatic server restart:
+
+```bash
+npm run dev
 ```
 
 The server runs on port `5000` by default.
 
-## Available API Endpoint
+## Available API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/health` | Checks backend server status |
+| GET | `/api/info` | Returns API information and available endpoints |
 
 ## Current Features
 
 - Express server setup
 - Health check API
+- API information endpoint
 - JSON request parsing
+- CORS configuration for frontend integration
+- Environment variable configuration using dotenv
 - 404 response for undefined routes
+- Centralized error handling middleware
+- Start and development scripts
 
 ## Future Development
 
