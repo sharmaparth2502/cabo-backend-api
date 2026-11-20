@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -6,6 +5,7 @@ const cors = require("cors");
 
 const healthRoutes = require("./src/routes/health.routes");
 const notFound = require("./src/middleware/notFound");
+const errorHandler = require("./src/middleware/errorHandler");
 
 const app = express();
 
@@ -24,6 +24,9 @@ app.use("/api", healthRoutes);
 
 // 404 Middleware
 app.use(notFound);
+
+// Error Handling Middleware
+app.use(errorHandler);
 
 // Server Configuration
 const PORT = process.env.PORT || 5000;
