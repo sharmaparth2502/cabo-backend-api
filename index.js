@@ -1,17 +1,31 @@
+
 require("dotenv").config();
+
 const express = require("express");
+const cors = require("cors");
 
 const healthRoutes = require("./src/routes/health.routes");
 const notFound = require("./src/middleware/notFound");
 
 const app = express();
 
+// Middleware
+app.use(cors({
+    origin: [
+        "https://sharmaparth2502.github.io",
+        "http://localhost:5500"
+    ]
+}));
+
 app.use(express.json());
 
+// API Routes
 app.use("/api", healthRoutes);
 
+// 404 Middleware
 app.use(notFound);
 
+// Server Configuration
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
