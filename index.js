@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 
 const healthRoutes = require("./src/routes/health.routes");
+const infoRoutes = require("./src/routes/info.routes");
 const notFound = require("./src/middleware/notFound");
 const errorHandler = require("./src/middleware/errorHandler");
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 // API Routes
 app.use("/api", healthRoutes);
+app.use("/api", infoRoutes);
 
 // 404 Middleware
 app.use(notFound);
