@@ -4,8 +4,10 @@
   "description": "Backend API for a Solar Carbon Credit Marketplace using Node.js, Express.js and MongoDB.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sharmaparth2502/cabo-backend-api.git"
