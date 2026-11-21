@@ -7,6 +7,8 @@ const connectDB = require("./src/config/db");
 
 const healthRoutes = require("./src/routes/health.routes");
 const infoRoutes = require("./src/routes/info.routes");
+const buyerRoutes = require("./src/routes/buyer.routes");
+
 const notFound = require("./src/middleware/notFound");
 const errorHandler = require("./src/middleware/errorHandler");
 
@@ -25,6 +27,7 @@ app.use(express.json());
 // API Routes
 app.use("/api", healthRoutes);
 app.use("/api", infoRoutes);
+app.use("/api/buyers", buyerRoutes);
 
 // 404 Middleware
 app.use(notFound);
