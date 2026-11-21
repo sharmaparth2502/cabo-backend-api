@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+const connectDB = require("./src/config/db");
+
 const healthRoutes = require("./src/routes/health.routes");
 const infoRoutes = require("./src/routes/info.routes");
 const notFound = require("./src/middleware/notFound");
@@ -33,6 +35,13 @@ app.use(errorHandler);
 // Server Configuration
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`CABO Backend running on port ${PORT}`);
-});
+// Connect Database and Start Server
+const startServer = async () => {
+    await connectDB();
+
+    app.listen(PORT, () => {
+        console.log(`CABO Backend running on port ${PORT}`);
+    });
+};
+
+startServer();
