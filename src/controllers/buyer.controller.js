@@ -1,7 +1,7 @@
 const Buyer = require("../models/Buyer");
 const bcrypt = require("bcrypt");
 
-// Buyer Registration
+// Register Buyer
 const registerBuyer = async (req, res, next) => {
     try {
         const {
@@ -14,7 +14,6 @@ const registerBuyer = async (req, res, next) => {
             companyType
         } = req.body;
 
-        // Required field validation
         if (!company || !email || !contact || !phone || !password) {
             return res.status(400).json({
                 success: false,
@@ -22,7 +21,6 @@ const registerBuyer = async (req, res, next) => {
             });
         }
 
-        // Email validation
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailPattern.test(email)) {
@@ -32,7 +30,6 @@ const registerBuyer = async (req, res, next) => {
             });
         }
 
-        // Phone validation
         if (!/^\d{10}$/.test(phone)) {
             return res.status(400).json({
                 success: false,
@@ -40,7 +37,6 @@ const registerBuyer = async (req, res, next) => {
             });
         }
 
-        // Password validation
         if (password.length < 6) {
             return res.status(400).json({
                 success: false,
@@ -48,7 +44,6 @@ const registerBuyer = async (req, res, next) => {
             });
         }
 
-        // Check existing buyer
         const existingBuyer = await Buyer.findOne({
             email: email.toLowerCase().trim()
         });
@@ -60,10 +55,8 @@ const registerBuyer = async (req, res, next) => {
             });
         }
 
-        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create buyer
         const buyer = await Buyer.create({
             company,
             email,
@@ -100,4 +93,61 @@ const registerBuyer = async (req, res, next) => {
     }
 };
 
-module.exports = { registerBuyer };
+// Login Buyer
+const loginBuyer = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required"
+            });
+        }
+
+        const buyer = await Buyer.findOne({
+            email: email.toLowerCase().trim()
+        }).select("+password");
+
+        if (!buyer) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            buyer.password
+        );
+
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Buyer login successful",
+            buyer: {
+                id: buyer._id,
+                company: buyer.company,
+                email: buyer.email,
+                contact: buyer.contact,
+                phone: buyer.phone,
+                procurementTarget: buyer.procurementTarget,
+                companyType: buyer.companyType
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    registerBuyer,
+    loginBuyer
+};
