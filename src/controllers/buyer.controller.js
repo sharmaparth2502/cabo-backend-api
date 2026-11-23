@@ -147,7 +147,34 @@ const loginBuyer = async (req, res, next) => {
     }
 };
 
+// Get All Buyers
+const getBuyers = async (req, res, next) => {
+    try {
+        const buyers = await Buyer.find().select("-password");
+
+        res.status(200).json({
+            success: true,
+            count: buyers.length,
+            buyers: buyers.map(function(buyer) {
+                return {
+                    id: buyer._id,
+                    company: buyer.company,
+                    email: buyer.email,
+                    contact: buyer.contact,
+                    phone: buyer.phone,
+                    procurementTarget: buyer.procurementTarget,
+                    companyType: buyer.companyType
+                };
+            })
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     registerBuyer,
-    loginBuyer
+    loginBuyer,
+    getBuyers
 };

@@ -18,7 +18,8 @@ const app = express();
 app.use(cors({
     origin: [
         "https://sharmaparth2502.github.io",
-        "http://localhost:5500"
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
     ]
 }));
 

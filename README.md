@@ -6,7 +6,7 @@ Backend API for a Solar Carbon Credit Marketplace built using Node.js, Express.j
 
 This repository contains the backend development of CABO, a platform designed to support a solar-based carbon credit marketplace by connecting buyers and sellers through API services.
 
-The backend handles database connectivity, buyer registration, buyer login and other API operations.
+The backend handles database connectivity, buyer registration, buyer login, buyer data retrieval and other API operations.
 
 ## Technologies Used
 
@@ -95,6 +95,7 @@ The server runs on port `5000` by default.
 | GET | `/api/info` | Returns API information |
 | POST | `/api/buyers/register` | Registers a new buyer |
 | POST | `/api/buyers/login` | Verifies buyer login credentials |
+| GET | `/api/buyers` | Retrieves registered buyer records |
 
 ## Buyer Registration API
 
@@ -131,6 +132,14 @@ Example request body:
 
 The API checks the buyer's email and verifies the password using bcrypt.
 
+## Get All Buyers API
+
+**Endpoint:** `GET /api/buyers`
+
+This API retrieves registered buyer records from MongoDB and returns their organisation details, email, contact information, procurement target and company type.
+
+Password fields are excluded from the response.
+
 ## Current Features
 
 - Express server setup
@@ -138,11 +147,13 @@ The API checks the buyer's email and verifies the password using bcrypt.
 - Buyer database model
 - Buyer registration API
 - Buyer login API
+- Buyer listing API
 - Password hashing using bcrypt
 - Email and phone number validation
 - Duplicate buyer email checking
 - JSON request parsing
 - CORS configuration for frontend integration
+- Frontend and backend integration for buyer registration and login
 - Environment variable configuration using dotenv
 - 404 response for undefined routes
 - Centralized error handling middleware
@@ -152,7 +163,6 @@ The API checks the buyer's email and verifies the password using bcrypt.
 - Seller management APIs
 - Carbon credit management and CRUD operations
 - Transaction management APIs
-- Frontend and backend integration
 - Further authentication and authorization features
 
 ## Repository
