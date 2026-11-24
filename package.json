@@ -1,33 +1,26 @@
 {
-  "name": "cabo-backend-api",
+  "name": "intro-to-backend-development",
   "version": "1.0.0",
-  "description": "Backend API for a Solar Carbon Credit Marketplace using Node.js, Express.js and MongoDB.",
+  "description": "This project is for the tutorial of intro to backend",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sharmaparth2502/cabo-backend-api.git"
+    "url": "https://github.com/sharmaparth2502/intro-to-backend-development.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Parth Sharma",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/sharmaparth2502/cabo-backend-api/issues"
+    "url": "https://github.com/sharmaparth2502/intro-to-backend-development/issues"
   },
-  "homepage": "https://github.com/sharmaparth2502/cabo-backend-api#readme",
+  "homepage": "https://github.com/sharmaparth2502/intro-to-backend-development",
+  "type": "commonjs",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.6",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
-    "mongoose": "^9.12.3"
-  },
-  "allowScripts": {
-    "bcrypt@6.0.0": true
+    "mongoose": "^9.12.2"
   }
 }
