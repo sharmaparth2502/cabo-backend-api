@@ -1,25 +1,51 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
+require("dotenv").config();
+
+const express = require("express");
+const cors = require("cors");
+
+const connectDB = require("./src/config/db");
+
+const healthRoutes = require("./src/routes/health.routes");
+const infoRoutes = require("./src/routes/info.routes");
+const buyerRoutes = require("./src/routes/buyer.routes");
+
+const notFound = require("./src/middleware/notFound");
+const errorHandler = require("./src/middleware/errorHandler");
 
 const app = express();
 
+// Middleware
+app.use(cors({
+    origin: [
+        "https://sharmaparth2502.github.io",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500"
+    ]
+}));
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => {
-    console.log("MongoDB connected successfully");
-})
-.catch((error) => {
-    console.log("MongoDB connection error:", error);
-});
+// API Routes
+app.use("/api", healthRoutes);
+app.use("/api", infoRoutes);
+app.use("/api/buyers", buyerRoutes);
 
-app.get('/', (req, res) => {
-    res.send("Backend server is running!");
-});
+// 404 Middleware
+app.use(notFound);
 
-const PORT = process.env.PORT || 8000;
+// Error Handling Middleware
+app.use(errorHandler);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Server Configuration
+const PORT = process.env.PORT || 5000;
+
+// Connect Database and Start Server
+const startServer = async () => {
+    await connectDB();
+
+    app.listen(PORT, () => {
+        console.log(`CABO Backend running on port ${PORT}`);
+    });
+};
+
+startServer();

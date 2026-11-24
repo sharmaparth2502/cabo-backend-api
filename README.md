@@ -1,164 +1,170 @@
-# Intro to Backend Development
+# CABO Backend API
 
-This project is created as part of the **Introduction to Backend Development** tutorial and assignment.
+Backend API for a Solar Carbon Credit Marketplace built using Node.js, Express.js and MongoDB.
 
-It demonstrates the implementation of a backend application using Node.js, Express.js, and MongoDB.
+## Project Overview
+
+This repository contains the backend development of CABO, a platform designed to support a solar-based carbon credit marketplace by connecting buyers and sellers through API services.
+
+The backend handles database connectivity, buyer registration, buyer login, buyer data retrieval and other API operations.
 
 ## Technologies Used
 
 - Node.js
 - Express.js
-- MongoDB
+- MongoDB Atlas
 - Mongoose
+- bcrypt
+- CORS
 - dotenv
-- bcryptjs
-- Postman
-
-## Features
-
-- Express server setup
-- MongoDB database connection
-- User registration API
-- Password hashing using bcryptjs
-- Input validation for user registration
-- Duplicate email protection
-- Password protection in API responses
-- Retrieve all users
-- Create, retrieve, update, and delete posts
-- Post owner validation
-- Post input validation
-- Centralized error handling in Post APIs
-- MongoDB models and schemas
-- Separate routes and controllers
-- REST API testing using Postman
 
 ## Project Structure
 
 ```text
-intro-to-backend-development/
-│
+cabo-backend-api/
 ├── src/
 │   ├── config/
-│   │   └── database.js
-│   │
-│   ├── models/
-│   │   ├── user.model.js
-│   │   └── post.model.js
-│   │
+│   │   └── db.js
 │   ├── controllers/
-│   │   ├── user.controller.js
-│   │   └── post.controller.js
-│   │
-│   ├── routes/
-│   │   ├── user.routes.js
-│   │   └── post.routes.js
-│   │
-│   ├── app.js
-│   └── index.js
-│
+│   │   ├── health.controller.js
+│   │   ├── info.controller.js
+│   │   └── buyer.controller.js
+│   ├── middleware/
+│   │   ├── notFound.js
+│   │   └── errorHandler.js
+│   ├── models/
+│   │   └── Buyer.js
+│   └── routes/
+│       ├── health.routes.js
+│       ├── info.routes.js
+│       └── buyer.routes.js
+├── .env
+├── .gitignore
 ├── index.js
 ├── package.json
 ├── package-lock.json
-├── .env.example
-├── .gitignore
 └── README.md
 ```
 
-## Installation and Setup
+## Getting Started
 
-1. Clone the repository:
-
-```bash
-git clone https://github.com/sharmaparth2502/intro-to-backend-development.git
-```
-
-2. Navigate to the project folder:
+### 1. Clone the repository
 
 ```bash
-cd intro-to-backend-development
+git clone https://github.com/sharmaparth2502/cabo-backend-api.git
 ```
 
-3. Install dependencies:
+### 2. Navigate to the project folder
+
+```bash
+cd cabo-backend-api
+```
+
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-4. Create a `.env` file in the root directory using `.env.example` as a reference:
+### 4. Configure environment variables
+
+Create a `.env` file in the root directory and add:
 
 ```env
-PORT=8000
-MONGODB_URI=your_mongodb_connection_string
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
 ```
 
-Replace the placeholder with your MongoDB connection URI. Keep actual credentials in `.env` and never upload them to GitHub.
+Replace the MongoDB connection string with your own MongoDB Atlas connection string.
 
-5. Start the server:
+**Note:** Do not upload the `.env` file or database credentials to GitHub.
+
+### 5. Start the server
 
 ```bash
-node src/index.js
+npm start
 ```
 
-The server runs on:
+The server runs on port `5000` by default.
 
-```text
-http://localhost:8000
-```
-
-## API Endpoints
-
-### User APIs
+## Available API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/users/register` | Register a new user |
-| GET | `/api/users` | Retrieve all users |
+| GET | `/api/health` | Checks backend server status |
+| GET | `/api/info` | Returns API information |
+| POST | `/api/buyers/register` | Registers a new buyer |
+| POST | `/api/buyers/login` | Verifies buyer login credentials |
+| GET | `/api/buyers` | Retrieves registered buyer records |
 
-### Post APIs
+## Buyer Registration API
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/posts` | Create a new post |
-| GET | `/api/posts` | Retrieve all posts |
-| PUT | `/api/posts/:id` | Update a post |
-| DELETE | `/api/posts/:id` | Delete a post |
+**Endpoint:** `POST /api/buyers/register`
 
-## Security and Validation
+Example request body:
 
-- User passwords are hashed using bcryptjs before being stored in MongoDB.
-- Passwords are excluded from user API responses.
-- User registration validates required fields, email format, and password length.
-- Duplicate email registration is prevented.
-- Post creation validates required fields and owner IDs.
-- Post updates allow changes only to title and content.
-- Database errors are handled with appropriate HTTP status codes.
-- Environment variables and sensitive configuration files are excluded from Git tracking.
+```json
+{
+    "company": "Test Solar Pvt Ltd",
+    "email": "testbuyer@example.com",
+    "contact": "Rahul Sharma",
+    "phone": "9876543210",
+    "password": "test123",
+    "procurementTarget": "10,000 tCO2e",
+    "companyType": "Private"
+}
+```
 
-## Testing
+The API validates the required fields, checks the email and phone number, hashes the password using bcrypt and stores the buyer details in MongoDB.
 
-The APIs were tested using Postman.
+## Buyer Login API
 
-The following operations and validation cases were tested:
+**Endpoint:** `POST /api/buyers/login`
 
-- User registration
-- Retrieving users without exposing passwords
-- Invalid email validation
-- Password length validation
-- Duplicate email protection
-- Creating posts
-- Retrieving posts with populated owner details
-- Updating posts
-- Deleting posts
-- Invalid and non-existent owner ID validation
-- Invalid post ID validation
-- Missing request body handling
+Example request body:
 
-## Database
+```json
+{
+    "email": "testbuyer@example.com",
+    "password": "test123"
+}
+```
 
-MongoDB is used to store user and post information.
+The API checks the buyer's email and verifies the password using bcrypt.
 
-Mongoose is used for defining schemas, creating models, and interacting with the database.
+## Get All Buyers API
 
-## Note
+**Endpoint:** `GET /api/buyers`
 
-This project is developed as part of a backend development tutorial and assignment. It demonstrates basic backend functionality along with input validation and security improvements. Authentication and authorization features are not implemented.
+This API retrieves registered buyer records from MongoDB and returns their organisation details, email, contact information, procurement target and company type.
+
+Password fields are excluded from the response.
+
+## Current Features
+
+- Express server setup
+- MongoDB Atlas database connection using Mongoose
+- Buyer database model
+- Buyer registration API
+- Buyer login API
+- Buyer listing API
+- Password hashing using bcrypt
+- Email and phone number validation
+- Duplicate buyer email checking
+- JSON request parsing
+- CORS configuration for frontend integration
+- Frontend and backend integration for buyer registration and login
+- Environment variable configuration using dotenv
+- 404 response for undefined routes
+- Centralized error handling middleware
+
+## Future Development
+
+- Seller management APIs
+- Carbon credit management and CRUD operations
+- Transaction management APIs
+- Further authentication and authorization features
+
+## Repository
+
+GitHub: https://github.com/sharmaparth2502/cabo-backend-api
